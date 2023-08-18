@@ -1,0 +1,44 @@
+---
+title: "Analisis potenciar trabajo"
+author: "Ariana Bard"
+date: "`r Sys.Date()`"
+lang: "es"
+output: 
+  rmdformats::robobook:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    code_folding: "show"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+#titulares por periodo y jurisdiccion
+total_titulares <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c4caa724-dfbb-4aac-bfe7-2169f4154bc5/download/potenciar-trabajo-titulares-activos-2022-10-01.csv")
+
+#titulares por año y jurisdiccion (este parecería no tener sentido si tenes por período)
+titulares_ano <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c5c925e0-7ce0-41e5-b3ff-8ebb51d4be72/download/potenciar-trabajo-titulares-2022-10-01.csv")
+
+#titulares por programa. Este también creo que no tiene mucho sentido
+titulares_programa <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/5d5274f0-f4d5-440a-9781-7fc6df0b4cb2/download/potenciar-trabajo-total-titulares-2022-10-01.csv")
+
+#titulares se pueden sacar datos del perfil de la persona
+
+titulares_personas <- read_csv("potenciar-trabajo-listado-titulares-2022-10-01.csv")
+
+# Pagos (Se podría ver desde cuano hasta cuando recibio pagos)
+
+pagos <- read_csv("potenciar-trabajo-listado-pagos-titulares-2022-10-01.csv")
+
+# Filtro el monto por potenciar trabajo
+montos_vigentes <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/2fbfb3e2-cd0a-4d1b-ac3b-89326e8e4f9c/resource/6778396e-75f7-4fce-ac65-97d1e5e4525e/download/montos-transferencias-2023-01-01.csv") |> 
+  filter(programa == "Potenciar Trabajo")
+
+
+```
+
