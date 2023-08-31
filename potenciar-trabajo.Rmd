@@ -4,7 +4,7 @@ author: "Ariana Bard"
 date: "`r Sys.Date()`"
 lang: "es"
 output: 
-  rmdformats::robobook:
+  rmdformats::downcute:
     self_contained: true
     thumbnails: true
     lightbox: true
@@ -15,30 +15,260 @@ output:
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 library(tidyverse)
 library(janitor)
+library(waffle)
+library(plotly)
+options(scipen=999)
 ```
 
+
+
 ```{r}
-#titulares por periodo y jurisdiccion
+#titulares por periodo y jurisdiccion (municipio)
 total_titulares <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c4caa724-dfbb-4aac-bfe7-2169f4154bc5/download/potenciar-trabajo-titulares-activos-2022-10-01.csv")
 
-#titulares por año y jurisdiccion (este parecería no tener sentido si tenes por período)
+#titulares por año y jurisdiccion (este parecería no tener sentido si tenes por período). Datos geográficos son del 
+# ultimo cobro del titular (se podria mapear)
 titulares_ano <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c5c925e0-7ce0-41e5-b3ff-8ebb51d4be72/download/potenciar-trabajo-titulares-2022-10-01.csv")
 
-#titulares por programa. Este también creo que no tiene mucho sentido
+# Mapa argentina y provincia de buenos aires 
+#titulares únicos del programa. Este también creo que no tiene mucho sentido. Es del último período
 titulares_programa <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/5d5274f0-f4d5-440a-9781-7fc6df0b4cb2/download/potenciar-trabajo-total-titulares-2022-10-01.csv")
 
-#titulares se pueden sacar datos del perfil de la persona
+#titulares se pueden sacar datos del perfil de la persona (sexo, edad y municipio)
 
-titulares_personas <- read_csv("potenciar-trabajo-listado-titulares-2022-10-01.csv")
+titulares_personas <- read_csv("data/potenciar-trabajo-listado-titulares-2022-10-01.csv")
 
-# Pagos (Se podría ver desde cuano hasta cuando recibio pagos)
+# Pagos (Se podría ver desde cuano hasta cuando recibio pagos cada persona).No está el monto solo la fecha de pago y el id
 
-pagos <- read_csv("potenciar-trabajo-listado-pagos-titulares-2022-10-01.csv")
+pagos <- read_csv("data/potenciar-trabajo-listado-pagos-titulares-2022-10-01.csv")
 
 # Filtro el monto por potenciar trabajo
 montos_vigentes <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/2fbfb3e2-cd0a-4d1b-ac3b-89326e8e4f9c/resource/6778396e-75f7-4fce-ac65-97d1e5e4525e/download/montos-transferencias-2023-01-01.csv") |> 
   filter(programa == "Potenciar Trabajo")
 
+```
+
+## Perfil de los titulares
+pirámide del país y pirámide de la provincia.
+o gráfico personitas waffle
+
+```{r}
+titulares_personas |> 
+  skimr::skim()
+```
+
+### Nacionalidad
+```{r}
+
+# Habría que limpiar las nacionalidades 
+nacionalidad_resumen <- titulares_personas |> 
+  mutate(nacionalidad = tolower(nacionalidad)) |> 
+  tabyl(nacionalidad) 
+
+nacionalidad_resumen 
+
+
+#Guardo
+writexl::write_xlsx(nacionalidad_resumen |> 
+                      select(-valid_percent) |> 
+                      mutate(percent = percent*100) |> 
+                      rename("porcentaje" = percent,
+                             "total titulares" = n), "bases-para-cyn/nacionalidad_resumen.xlsx")
+```
+
+El 86% de los titulares es Argentino 
+
+### Género y sexo
+
+```{r}
+# Sexo
+
+base_sexo <- titulares_personas |> 
+  mutate(genero = ifelse(is.na(genero), sexo, genero),
+         genero =ifelse(genero == "F", "Mujer", ifelse(genero == "M", "Varón", genero)))
+
+titulares_personas |> 
+  tabyl(sexo) |> 
+  kableExtra::kable()
+
+# Genero
+base_sexo |> 
+  tabyl(genero) |> 
+  arrange(desc(n)) |> 
+  kableExtra::kable()
+
+# perc_counts <- (datos$percent)*100
+# names(perc_counts) <- datos$genero
+# 
+# # Graficamos
+# 
+# waffle(perc_counts) + 
+#   theme_minimal() +
+#   theme(axis.text.y = element_blank(),
+#         axis.ticks.y = element_blank(),
+#         axis.text.x = element_blank(),
+#         plot.title = element_text(hjust = 0.5)) +
+#   labs(title = "Porcentaje de titulares por género")
+
+print(paste(2867+1086+721+437, "corresponden a disidencias. Es decir, el", (round(((2867+1086+721+437)/1586676)*100,2)),"%"))
+
+# Aclararle que la distribucion por sexo es tal y los NA los reemplacé por el género
+writexl::write_xlsx(base_sexo |> 
+                      tabyl(genero) |> 
+                      arrange(desc(n))  |> 
+                      rename("porcentaje" = percent,
+                             "total titulares" = n), "bases-para-cyn/titulares_x_genero.xlsx")
 
 ```
+
+```{r}
+summary(base_sexo)
+```
+El rango etario va de los 18 hasta los 72 años
+
+Habría que ver sobre qué año está calculada la edad de las personas si es por el año de ingreso o qué. Y, si son los titulares históricos o los actuales. Si me quedo con el último pago en diciembre de 2022 había 1.362.579. Los gráficos de perfil los hago con la totalidad. 
+
+```{r}
+filtrada <- pagos |>
+  filter(periodo == max(periodo))
+
+
+
+print(paste("El total de titulares que recibieron pago en octubre de 2022 (última fecha en la base) es de:", nrow(filtrada)))
+```
+```{r}
+
+#Edad a 0'
+titulares_personas <- titulares_personas |> 
+  filter(!is.na(edad)) |> 
+  mutate(rango_etario = case_when(
+      edad < 25 ~ "18-24",
+      edad < 35 ~ "25-34",
+      edad < 45 ~ "35-44",
+      edad < 55 ~ "45-54",
+      edad < 65 ~ "55-64",
+      edad >= 65 ~ "65-72"
+    ),
+    rango_etario = factor(
+      rango_etario,
+      levels = c("18-24",
+                 "25-34",
+                 "35-44",
+                 "45-54",
+                 "55-64",
+                 "65-72"
+                 )
+    )
+  )
+
+#esquisse::esquisser(x)
+
+
+
+
+# Armo la piramide
+
+titulares_personas |>
+  group_by(rango_etario, sexo) |>
+  summarise(N = n()) |>
+  mutate(N = ifelse(sexo == "M",-N, N)) |>
+  rename(
+    "Rango etario" = rango_etario,
+    "sexo" = sexo,
+    "Cantidad de titulares" = N
+  ) |> 
+  ggplot() +
+  aes(x = `Rango etario`, y = `Cantidad de titulares`, fill = sexo) +
+  geom_col() +
+  scale_fill_manual(values = c(F = "#b22987",
+                               M = "#2987b2")) +
+ labs(x = " ", y = " ", title = "Piramide poblacional del Potenciar Trabajo",
+      subtitle = "Titulares de Argentina entre el año 2020 y 2022 (en miles)",
+      caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
+ fill = "Sexo")  +
+  coord_flip() +
+  ggthemes::theme_pander()+
+  theme(legend.position = "right",
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    plot.caption = element_text(size = 8L),
+    axis.title.y = element_text(size = 9L),
+    axis.title.x = element_text(size = 9L),
+    text = element_text(size =8L)
+  ) +
+  scale_y_continuous(breaks = c( -50000, -100000, -150000, -200000, -250000, -300000, -350000,0, 50000, 100000, 150000, 200000, 250000, 300000, 350000),
+                     labels = c(50, 100, 150, 200, 250, 300, 350,0, 50, 100, 150, 200, 250, 300, 350),
+                     limits = c(-350000,350000)
+                    ) 
+
+ggsave("graficos/piramide-argentina.png")
+```
+Provincia de buenos aires
+
+```{r}
+
+#Piramide de la provincia de buenos aires
+titulares_pba <- titulares_personas |>
+  filter(provincia_id == "06") |> 
+  group_by(rango_etario, sexo) |>
+  summarise(N = n()) |>
+  mutate(N = ifelse(sexo == "M",-N, N)) |>
+  rename(
+    "Rango etario" = rango_etario,
+    "sexo" = sexo,
+    "Cantidad de titulares" = N
+  ) 
+
+titulares_pba |> 
+  ggplot() +
+  aes(x = `Rango etario`, y = `Cantidad de titulares`, fill = sexo) +
+  geom_col() +
+  scale_fill_manual(values = c(F = "#b22987",
+                               M = "#2987b2")) +
+ labs(x = " ", y = " ", title = "Piramide poblacional del Potenciar Trabajo",
+      subtitle = "Titulares de Buenos Aires entre el año 2020 y 2022 (en miles)",
+      caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
+ fill = "Sexo")  +
+  coord_flip() +
+  ggthemes::theme_pander()+
+  theme(legend.position = "right",
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    plot.caption = element_text(size = 8L),
+    axis.title.y = element_text(size = 9L),
+    axis.title.x = element_text(size = 9L),
+    text = element_text(size =8L)
+  ) +
+  scale_y_continuous(breaks = c( -50000, -100000, -150000, -200000, 0, 50000, 100000, 150000, 200000),
+                     labels = c(50, 100, 150, 200, 0, 50, 100, 150, 200),
+                     limits = c(-200000,200000)
+                    ) 
+ggsave("graficos/piramide-baires.png")
+
+```
+
+```{r}
+titulares_personas |> 
+  tabyl(provincia) |> 
+  arrange(desc(n))
+
+writexl::write_xlsx(titulares_personas |> 
+                      tabyl(provincia) |> 
+                      arrange(desc(n))|>
+                      mutate(percent = percent*100) |> 
+                      rename("porcentaje" = percent,
+                             "total titulares" = n), "bases-para-cyn/titulares_x_provincia.xlsx")
+```
+
+
+2- Evolución de los titulares / permanencia en el programa
+base 1
+Titulares por periodo y jurisdicción gráfico lineal
+
+3- Ubicando a los titulares a nivel nacional y provincial.
+Base Titulares por periodo y jurisdicción 
+
+Mapa nacional
+Mapa Provincial
+ver si hay diferencia para ver si hay dos mapas o no.
 
