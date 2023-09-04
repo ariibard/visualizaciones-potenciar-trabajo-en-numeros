@@ -3,12 +3,17 @@ title: "Analisis potenciar trabajo"
 author: "Ariana Bard"
 date: "`r Sys.Date()`"
 lang: "es"
-output: 
+output:
   rmdformats::downcute:
-    self_contained: true
-    thumbnails: true
-    lightbox: true
-    code_folding: "show"
+    lightbox: TRUE
+    highlight: tango
+    toc: 3
+    number-sections: TRUE
+    code-folding: hide
+    code_download: TRUE
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
@@ -259,6 +264,8 @@ writexl::write_xlsx(titulares_personas |>
                       rename("porcentaje" = percent,
                              "total titulares" = n), "bases-para-cyn/titulares_x_provincia.xlsx")
 ```
+
+<!-- Se podría hacer con las proyecciones del indec el % de población que lo recibe para ver porcentualmente cuanto representa -->
 
 
 2- Evolución de los titulares / permanencia en el programa
