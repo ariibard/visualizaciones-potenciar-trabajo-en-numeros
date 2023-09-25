@@ -1,0 +1,660 @@
+---
+title: "El “Potenciar Trabajo” en datos. Miradas relacionales entre concepciones y números para comprender su constitución"
+author:  "Cynthia Ferrari Mango y Ariana Bardauil"
+date: "`r Sys.Date()`"
+lang: "es"
+output:
+  rmdformats::downcute:
+    lightbox: TRUE
+    highlight: tango
+    toc: 3
+    number-sections: TRUE
+    code-folding: hide
+    code_download: TRUE
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo = FALSE)
+library(tidyverse)
+library(janitor)
+library(waffle)
+library(plotly)
+library(sf)
+library(stringr)
+library(lubridate)
+library(geoAr)
+library(ggrepel)
+library(gt)
+library(scales)
+library(readxl)
+
+options(scipen=999)
+```
+
+# Resultados
+
+## Perfil de os y las titulares del programa
+
+En este apartado, caracterizamos el perfil de los y las titulares teniendo en cuenta la edad, el género y la nacionalidad. En lo que refiere …..
+A nivel país, en la siguiente Pirámide Poblacional de los Titulares del potenciar trabajo de Argentina (2020 y 2022).
+
+
+El 86% de los titulares es Argentino. El 4.7% no tiene información sobre la nacionalidad
+
+<!-- Habría que limpiarlo. No tiene sentido usarlo -->
+
+### Género y sexo
+
+```{r}
+
+#titulares se pueden sacar datos del perfil de la persona (sexo, edad y municipio)
+
+titulares_personas <- read_csv("data/potenciar-trabajo-listado-titulares-2022-10-01.csv")
+
+# Sexo
+base_sexo <- titulares_personas |>
+  # Imputo sexo a género en los casos en los que no hay valores
+  mutate(genero = ifelse(is.na(genero), sexo, genero),
+         genero =ifelse(genero == "F", "Mujer", ifelse(genero == "M", "Varón", genero)))
+
+
+# Muestro la distribución del género
+tabla_genero <- base_sexo |> 
+  tabyl(genero) |> 
+  arrange(desc(n))   %>%
+  adorn_totals |> 
+  mutate(percent = print(paste(round(percent*100,2), "%"))) |> 
+  rename(
+    "Cantidad" = n,
+    "Porcentaje" = percent,
+    "Género" = genero
+  ) |> 
+  gt() %>%
+  tab_header(
+    title = "Distribución del Género",
+    subtitle = "Datos de género y frecuencia"
+  ) %>%
+  fmt_number(
+    columns = c(Cantidad),
+    decimals = 0) |> 
+  fmt_number(
+    columns = c(Porcentaje),
+    decimals = 2)
+
+#muestro
+tabla_genero
+
+# Guardo tabla
+gtsave(tabla_genero,filename = "graficos/distribucion_genero.html")
+
+# Borro
+rm(tabla_genero)
+
+#Porcentaje de discidencias
+print(paste(2867+1086+721+437, "corresponden a disidencias. Es decir, el", (round(((2867+1086+721+437)/1586676)*100,2)),"%"))
+
+
+```
+
+
+```{r include=FALSE}
+
+# Creo el rango etario para hacer la piramide poblacional
+titulares_personas <- titulares_personas |> 
+  filter(!is.na(edad)) |> 
+  mutate(rango_etario = case_when(
+      edad < 25 ~ "18-24",
+      edad < 35 ~ "25-34",
+      edad < 45 ~ "35-44",
+      edad < 55 ~ "45-54",
+      edad < 65 ~ "55-64",
+      edad >= 65 ~ "65-72"
+    ),
+    rango_etario = factor(
+      rango_etario,
+      levels = c("18-24",
+                 "25-34",
+                 "35-44",
+                 "45-54",
+                 "55-64",
+                 "65-72"
+                 )
+    )
+  )
+
+#esquisse::esquisser(x)
+
+
+
+
+# Armo la piramide
+
+piramide_nac <- titulares_personas |>
+  group_by(rango_etario, sexo) |>
+  summarise(N = n()) |>
+  mutate(N = ifelse(sexo == "M",-N, N)) |>
+  rename(
+    "Rango etario" = rango_etario,
+    "sexo" = sexo,
+    "Cantidad de titulares" = N
+  ) |> 
+  ggplot() +
+  aes(x = `Rango etario`, y = `Cantidad de titulares`, fill = sexo) +
+  geom_col() +
+  scale_fill_manual(values = c(F = "#b22987",
+                               M = "#2987b2")) +
+ labs(x = " ", y = " ", title = "Piramide poblacional de Argentina",
+      subtitle = "Titulares del Potenciar Trabajo entre el año 2020 y 2022 (en miles)",
+      caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
+ fill = "Sexo")  +
+  coord_flip() +
+  ggthemes::theme_pander()+
+  theme(legend.position = "right",
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    plot.caption = element_text(size = 8L),
+    axis.title.y = element_text(size = 9L),
+    axis.title.x = element_text(size = 9L),
+    text = element_text(size =8L)
+  ) +
+  scale_y_continuous(breaks = c( -50000, -100000, -150000, -200000, -250000, -300000, -350000,0, 50000, 100000, 150000, 200000, 250000, 300000, 350000),
+                     labels = c(50, 100, 150, 200, 250, 300, 350,0, 50, 100, 150, 200, 250, 300, 350),
+                     limits = c(-350000,350000)
+                    ) 
+
+ggsave(plot = piramide_nac, "graficos/piramide-argentina.png")
+
+plotly_nac <- ggplotly(piramide_nac)
+
+plotly_nac
+rm(piramide_nac)
+
+#Guardo html
+
+```
+
+### Provincia de buenos aires
+
+```{r}
+
+#Piramide de la provincia de buenos aires
+titulares_pba <- titulares_personas |>
+  filter(provincia_id == "06") |> 
+  group_by(rango_etario, sexo) |>
+  summarise(N = n()) |>
+  mutate(N = ifelse(sexo == "M",-N, N)) |>
+  rename(
+    "Rango etario" = rango_etario,
+    "sexo" = sexo,
+    "Cantidad de titulares" = N
+  ) 
+
+# Armo piramide de provincia de buenos aires
+piramida_pba <- titulares_pba |> 
+  ggplot() +
+  aes(x = `Rango etario`, y = `Cantidad de titulares`, fill = sexo) +
+  geom_col() +
+  scale_fill_manual(values = c(F = "#b22987",
+                               M = "#2987b2")) +
+ labs(x = " ", y = " ", title = "Piramide poblacional de Buenos Aires",
+      subtitle = "Titulares del Potenciar Trabajo entre el año 2020 y 2022 (en miles)",
+      caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
+ fill = "Sexo")  +
+  coord_flip() +
+  ggthemes::theme_pander()+
+  theme(legend.position = "right",
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    plot.caption = element_text(size = 8L),
+    axis.title.y = element_text(size = 9L),
+    axis.title.x = element_text(size = 9L),
+    text = element_text(size =8L)
+  ) +
+  scale_y_continuous(breaks = c( -50000, -100000, -150000, -200000, 0, 50000, 100000, 150000, 200000),
+                     labels = c(50, 100, 150, 200, 0, 50, 100, 150, 200),
+                     limits = c(-200000,200000)
+                    ) 
+ggsave(plot= piramida_pba, "graficos/piramide-baires.png")
+
+# Muestro
+ggplotly(piramida_pba)
+
+rm(piramida_pba)
+
+```
+
+### Titulares por provincia
+
+```{r}
+#Modifico errores de nombres
+titulares_personas <- titulares_personas |>
+  mutate(provincia = ifelse(provincia == "CÃ³rdoba", "Córdoba",
+                            ifelse(provincia == "Entre RÃ­os","Entre Ríos",
+                                   ifelse(provincia == "TucumÃ¡n", "Tucumán", provincia)))) 
+
+# Creo tabla
+titulares_personas |> 
+  tabyl(provincia) |> 
+  arrange(desc(n)) %>%
+  adorn_totals |> 
+  mutate(percent = print(paste(round(percent*100,2), "%"))) |> 
+  rename(
+    "Cantidad" = n,
+    "Porcentaje" = percent,
+    "Provincia" = provincia
+  ) |> 
+  gt() %>%
+  tab_header(
+    title = "Distribución por Provincia",
+    subtitle = "Cantidad y Porcentaje de titulares "
+  ) %>%
+  fmt_number(
+    columns = c(Cantidad),
+    decimals = 0) |> 
+  fmt_number(
+    columns = c(Porcentaje),
+    decimals = 2)
+
+
+```
+
+<!-- Se podría hacer con las proyecciones del indec el % de población que lo recibe para ver porcentualmente cuanto representa -->
+
+
+## Evolución de los titulares / permanencia en el programa
+
+Titulares por periodo y jurisdicción gráfico lineal
+
+```{r}
+#titulares por periodo y jurisdiccion (municipio)
+total_titulares <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c4caa724-dfbb-4aac-bfe7-2169f4154bc5/download/potenciar-trabajo-titulares-activos-2022-10-01.csv")
+# Titulares por periodo y jurisdicción gráfico lineal
+
+tit_argentina <- total_titulares |> 
+  group_by(periodo) |> 
+  summarise(total_titulares = sum(titulares),
+            jurisdiccion = "Argentina") 
+
+df_tendencia <- total_titulares |> 
+  filter(provincia_id == "06") |> 
+  group_by(periodo) |> 
+  summarise(total_titulares = sum(titulares),
+            jurisdiccion = "Buenos Aires") |> 
+  full_join(tit_argentina)
+
+
+linea <- ggplot(df_tendencia) +
+  aes(x = periodo, y = total_titulares, colour = jurisdiccion) +
+  geom_line() +
+  geom_point() +
+  scale_color_brewer(palette = "Set2",
+                     direction = 1) +
+  labs(
+    x = " ",
+    y = " ",
+    title = "Evolución de la cantidad de titulares ",
+    subtitle = "Del total del país y de la Provincia de Buenos Aires (2020-2022)",
+    caption = "Fuente: Elaboración propia en base a datos abiertos del MDSN",
+    color = "Jurisdicción"
+  ) +
+  ggthemes::theme_pander() +
+  theme(
+    legend.position = "top",
+    plot.title = element_text(size = 15L, face = "bold",
+                              hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5)
+  ) +
+  scale_x_date(date_labels = "%b-%y", date_breaks = "3 months") +
+  scale_y_continuous(labels = comma)
+
+ggsave(plot = linea, "graficos/linea.png")
+
+ggplotly(linea)
+```
+
+
+## Distribución geográfica 
+
+
+
+```{r}
+rm(base_sexo, df_tendencia, titulares_pba)
+
+# ultimo cobro del titular (se podria mapear)
+titulares_ano <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c5c925e0-7ce0-41e5-b3ff-8ebb51d4be72/download/potenciar-trabajo-titulares-2022-10-01.csv")
+
+
+# Armo el grafico de titulares totales
+ 
+mapa_provincia <- titulares_ano |>
+  mutate(ano = year(periodo)) |> 
+  group_by(provincia_id, ano) |> 
+  summarise(tot_titulares= sum(titulares))
+
+#agrupo por año
+mapa_provincia <- mapa_provincia |>
+  group_by(ano) |> 
+  mutate(tot_prop = (tot_titulares/sum(tot_titulares))*100)
+
+# Armo una tabla 
+
+# Vectores con nombres de provincias y códigos
+nombres_provincias <- c(
+  "Ciudad Autónoma de Buenos Aires",
+  "Buenos Aires",
+  "Catamarca",
+  "Córdoba",
+  "Corrientes",
+  "Chaco",
+  "Chubut",
+  "Entre Ríos",
+  "Formosa",
+  "Jujuy",
+  "La Pampa",
+  "La Rioja",
+  "Mendoza",
+  "Misiones",
+  "Neuquén",
+  "Río Negro",
+  "Salta",
+  "San Juan",
+  "San Luis",
+  "Santa Cruz",
+  "Santa Fe",
+  "Santiago del Estero",
+  "Tucumán",
+  "Tierra del Fuego, Antártida e Islas del Atlántico Sur"
+)
+
+provincia_id <- c(
+  "02", "06", "10", "14", "18", "22", "26", "30", "34", "38", "42", "46",
+  "50", "54", "58", "62", "66", "70", "74", "78", "82", "86", "90", "94"
+)
+
+#Uno
+tabla_cod <- data.frame(provincia_id,nombres_provincias)
+
+mapa_provincia <- mapa_provincia |> 
+  left_join(tabla_cod)
+
+tabla <- mapa_provincia |> 
+  select(-provincia_id) |> 
+  pivot_wider(names_from = ano, values_from = c(tot_titulares, tot_prop)) |> 
+  rename("Provincias"= nombres_provincias,
+         "Porcentaje 2020" = tot_prop_2020,
+         "Porcentaje 2021" = tot_prop_2021,
+         "Porcentaje 2022" = tot_prop_2022,
+         "Titulares 2020" = tot_titulares_2020,
+         "Titulares 2021" = tot_titulares_2021,
+         "Titulares 2022" = tot_titulares_2022,) |> 
+  adorn_totals() 
+
+tabla |> 
+  kableExtra::kable()
+
+#Tabla para poner en el trabajo 
+
+writexl::write_xlsx(tabla, "bases-para-cyn/titularesxprovinciayano.xlsx")
+
+
+
+
+```
+
+### Mapa en función del % poblacional
+
+```{r}
+# Traigo el mapa de argentina con provincias
+mapa_arg <- get_geo("ARGENTINA", level = "provincia") |> 
+  rename("provincia_id" = codprov_censo)
+
+codigos_mapa <- show_arg_codes(viewer = FALSE, nivel = "provincias")
+```
+
+
+
+```{r}
+# Traigo csv que armamos en la clase de salud con R
+poblacion_indec <- read_csv("data/resultado.csv")
+
+# Me traigo los totales poblacionales
+poblacion <- poblacion_indec |> 
+  filter(!juri == "01") |> 
+  # Año 2022 y 2020 para ver las dos fotos
+  filter(ano == 2022 | ano == 2020) |> 
+  # Total por seo
+  filter(sexo_nombre == "Ambos sexos") |>
+  group_by(ano,juri, juri_nombre) |> 
+  summarise(poblacion = sum(poblacion)) |> 
+  #Para poder joinear
+  rename("provincia_id" = juri)
+
+
+
+# Armamos la proporción de titulares sobre la población proyectada
+mapa_provincia_pob <- mapa_provincia |>
+  filter(ano %in% c(2020, 2022)) |> 
+  left_join(poblacion) |> 
+  group_by(ano, provincia_id) |> 
+  mutate(prop_ponlacional = (tot_titulares/poblacion))
+
+
+mapa_provincia_pob$prop_ponlacional <- round(mapa_provincia_pob$prop_ponlacional*100,2)
+
+#guardo excel)*
+writexl::write_xlsx(mapa_provincia_pob, "bases-para-cyn/tot_titulares_provincia_indec.xlsx")
+
+#Uno con el mapa 
+mapa_pob <- mapa_arg |> 
+  left_join(mapa_provincia_pob)
+
+mapa_nac <- ggplot(mapa_pob) +
+  geom_sf(aes(fill = prop_ponlacional)) +
+  geom_sf_text(
+    aes(label = paste0(prop_ponlacional, "%")),
+    size = 1.8,
+    face = "bold",
+    colour = "black",
+    hjust = 0.5
+  ) +
+  scale_fill_viridis_c(option = "plasma",
+                       direction = -1,
+                       labels = percent_format(scale = 1)) +
+  ggthemes::theme_pander() +
+  labs(title = "Porcentaje de titulares por provincia",
+       subtitle = "En base a proyecciones de INDEC",
+       fill = "Porcentaje") +
+  theme(
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    text = element_text(size = 1)
+  ) +
+  ylab("") +
+  xlab("") +
+  facet_wrap(vars(ano))   # Añade scales = "free" para ajustar las escalas de los ejes en cada panel
+
+
+ggsave(plot = mapa_nac, "graficos/mapa-porc-titulares-x-poblacion.png")
+
+mapa_pob |> 
+  group_by(ano) |> 
+  summarise(total =sum(tot_titulares),
+            total_pob =sum(poblacion),
+            tot_prop = round((total/total_pob)*100,1)) |> 
+  select(-geometry) |> 
+  kableExtra::kable()
+
+
+mapa_nac_interactivo <- ggplot(mapa_pob) +
+  geom_sf(aes(fill = prop_ponlacional, text = paste("Provincia:", juri_nombre, "<br>Porcentaje:", prop_ponlacional, "%"))) +
+  scale_fill_viridis_c(option = "plasma",
+                       direction = -1,
+                       labels = percent_format(scale = 1)) +
+  ggthemes::theme_pander() +
+  labs(title = "Porcentaje de titulares por provincia en base a proyecciones de INDEC",
+       fill = "Porcentaje") +
+  theme(
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    text = element_text(size = 1)
+  ) +
+  ylab("") +
+  xlab("") +
+  facet_wrap(vars(ano))
+
+ggplotly(mapa_nac_interactivo, tooltip = "text")
+```
+
+
+Mapa Provincial
+
+```{r}
+#para ver cual es el codigo
+#codigos_mapa <- show_arg_codes(viewer = FALSE, nivel = "provincias")
+# Traigo el mapa de argentina con provincias
+mapa_ba <- get_geo("BUENOS AIRES", level = "departamento") 
+
+#Traigo la proyeccion poblacional de INDEC que hice para la materia de salud de R de MGAIE
+
+ba_depto_indec <- read_excel("data/proyecciones_depto_indec.xlsx") |> 
+  clean_names() |> 
+  # filtro por provincia de buenos aires
+  filter(juri_codigo == "06") |> 
+  # me quedo con la info de ambos sexos
+  filter(sexo_nombre == "Ambos sexos") |> 
+  #Filtro los años
+  filter(ano %in% c(2020, 2021, 2022)) |> 
+  rename("provincia_id" = juri_codigo)
+
+# Titulares 
+titulares_ba <- titulares_ano |> 
+  # Filtro los de buenos aires
+  filter(provincia_id == "06") |> 
+  # Creo una columna con el codigo sin el 06 de la provincia para poder matchear con el censo
+  mutate(departamento_codigo = substr(departamento_id, 3, nchar(departamento_id)),
+         ano = as.character(year(periodo))) 
+
+# Uno ambas bases para poder operar
+mapa_pba <- ba_depto_indec |> 
+  left_join(titulares_ba |> 
+              select(-c(municipio, municipio_id, 
+                        departamento_id,
+                        provincia,
+                        departamento))) |> 
+  mutate(porcentaje = (titulares/poblacion)*100) 
+
+base_final_pba <- mapa_ba |> 
+  left_join(mapa_pba |> 
+  select(departamento_nombre,departamento_codigo, ano, porcentaje) |> 
+    rename("coddepto_censo" = departamento_codigo) |> 
+    filter(! ano == "2021"))
+
+
+tabla_pba <- mapa_pba |> 
+  select(departamento_nombre, ano, poblacion, titulares, porcentaje) |> 
+  pivot_wider(names_from = ano, values_from = c(poblacion, titulares, porcentaje)) 
+
+DT::datatable(tabla_pba)
+
+writexl::write_xlsx(tabla_pba, "bases-para-cyn/tabla_pba.xlsx")
+```
+
+
+```{r}
+
+mapa_buenos_aires <- base_final_pba |> 
+  ggplot() +
+  geom_sf(aes(fill = porcentaje, text = paste("Departamento:", departamento_nombre, "<br>Porcentaje:", round(porcentaje,1), "%"))) +
+  scale_fill_viridis_c(option = "plasma",
+                       direction = -1,
+                       labels = percent_format(scale = 1)) +
+  ggthemes::theme_pander() +
+  labs(title = "Porcentaje de titulares por departamento",
+       subtitle = "En base a proyecciones de INDEC",
+       fill = "Porcentaje") +
+  theme(
+    plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    text = element_text(size = 1)
+  ) +
+  ylab("") +
+  xlab("") +
+  facet_wrap(vars(ano))   # Añade scales = "free" para ajustar las escalas de los ejes en cada panel
+
+#mapa_buenos_aires
+
+ggsave(plot = mapa_buenos_aires, "graficos/mapa_buenos_aires.png")
+
+# Los datos totales de la provincia
+mapa_pba |> 
+  group_by(ano) |> 
+  summarise(total =sum(titulares),
+            total_pob =sum(poblacion),
+            tot_prop = round((total/total_pob)*100,1))|> 
+  kableExtra::kable()
+
+
+
+ggplotly(mapa_buenos_aires, tooltip = "text")
+```
+
+## Montos 
+
+```{r}
+# Filtro el monto por potenciar trabajo
+montos_vigentes <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/2fbfb3e2-cd0a-4d1b-ac3b-89326e8e4f9c/resource/6778396e-75f7-4fce-ac65-97d1e5e4525e/download/montos-transferencias-2023-01-01.csv") |> 
+  filter(programa == "Potenciar Trabajo") |> 
+  mutate(periodo = format.Date(periodo, "%m/%Y"))
+
+
+# Traigo el IPC de INDEC para pasar ls montos a precios reales
+
+ipc <- read_excel("data/sh_ipc_09_23.xls", 
+    sheet = "analisis_potenciar") |>
+  clean_names() |> 
+  mutate(periodo = format.Date(fecha, "%m/%Y")) |> 
+  select(-fecha) |> 
+  rename("ipc" = nivel_general) |> 
+  right_join(montos_vigentes) |>
+  mutate(ipc= ipc/100,
+         monto_real = monto/ipc,
+         periodo = as.Date(paste("01/", periodo, sep = ""), format = "%d/%m/%Y"))
+
+
+
+```
+
+```{r}
+
+# Armo grafico del IPC
+
+linea_ipc <- ggplot(ipc) +
+  aes(x = periodo, y = monto_real) +
+  geom_line() +
+  geom_point() +
+  labs(
+    x = " ",
+    y = " ",
+    title = "Evolución de los montos del programa (2020-2022)",
+    caption = "Fuente: Elaboración propia en base al IPC de INDEC",
+  ) +
+  ggthemes::theme_pander() +
+  theme(
+    legend.position = "top",
+    plot.title = element_text(size = 15L, face = "bold",
+                              hjust = 0.5),
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5)
+  ) +
+  scale_x_date(date_labels = "%m-%y", date_breaks = "3 months") +
+  scale_y_continuous(labels = comma, limits = c(1500,4000))
+
+
+ggsave(plot = linea_ipc, "graficos/linea_ipc.png")
+
+ggplotly(linea_ipc)
+```
+
+https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31

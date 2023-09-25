@@ -1,6 +1,6 @@
 ---
-title: "Analisis potenciar trabajo"
-author: "Ariana Bard"
+title: "El “Potenciar Trabajo” en datos. Miradas relacionales entre concepciones y números para comprender su constitución"
+author:  "Cynthia Ferrari Mango y Ariana Bardauil"
 date: "`r Sys.Date()`"
 lang: "es"
 output:
@@ -17,7 +17,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, echo = FALSE)
 library(tidyverse)
 library(janitor)
 library(waffle)
@@ -31,7 +31,7 @@ library(gt)
 options(scipen=999)
 ```
 
-
+# Resultados
 
 ```{r}
 #titulares por periodo y jurisdiccion (municipio)
@@ -60,8 +60,10 @@ montos_vigentes <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/datas
 
 ```
 
-## Perfil de los titulares
-Pirámide del país y pirámide de la provincia.
+## Perfil de os y las titulares del programa
+
+En este apartado, caracterizamos el perfil de los y las titulares teniendo en cuenta la edad, el género y la nacionalidad. En lo que refiere …..
+A nivel país, en la siguiente Pirámide Poblacional de los Titulares del potenciar trabajo de Argentina (2020 y 2022).
 
 
 ```{r}
@@ -69,8 +71,11 @@ titulares_personas |>
   skimr::skim()
 ```
 
-### Nacionalidad
-```{r}
+
+```{r, include =FALSE}
+
+# Nacionalidad
+
 
 # Habría que limpiar las nacionalidades 
 nacionalidad_resumen <- titulares_personas |> 
@@ -570,7 +575,7 @@ ggplot(mapa_pob) +
                        labels = percent_format(scale = 1)) +
   ggthemes::theme_pander() +
   labs(title = "Porcentaje de titulares por provincia",
-       subtitle = "En base a proyecciones de INDEC - Año 2022 ",
+       subtitle = "En base a proyecciones de INDEC",
        fill = "Proporción") +
   theme(
     plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
