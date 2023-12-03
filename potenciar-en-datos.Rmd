@@ -36,7 +36,7 @@ options(scipen=999)
 
 # Resultados
 
-## Perfil de os y las titulares del programa
+## Perfil de los y las titulares del programa
 
 En este apartado, caracterizamos el perfil de los y las titulares teniendo en cuenta la edad, el género y la nacionalidad. En lo que refiere …..
 A nivel país, en la siguiente Pirámide Poblacional de los Titulares del potenciar trabajo de Argentina (2020 y 2022).
@@ -46,8 +46,9 @@ El 86% de los titulares es Argentino. El 4.7% no tiene información sobre la nac
 
 <!-- Habría que limpiarlo. No tiene sentido usarlo -->
 
-### Género y sexo
+### Género y sexo {.tabset}
 
+#### Total pais
 ```{r}
 
 #titulares se pueden sacar datos del perfil de la persona (sexo, edad y municipio)
@@ -74,7 +75,7 @@ tabla_genero <- base_sexo |>
   ) |> 
   gt() %>%
   tab_header(
-    title = "Distribución del Género",
+    title = "Distribución del Género en Argentina",
     subtitle = "Datos de género y frecuencia"
   ) %>%
   fmt_number(
@@ -99,8 +100,38 @@ print(paste(2867+1086+721+437, "corresponden a disidencias. Es decir, el", (roun
 
 ```
 
+#### Provincia de buenos aires 
 
-```{r include=FALSE}
+Distribución del género en PBA
+```{r}
+base_sexo |>
+  filter(provincia_id == "06") %>% 
+  tabyl(genero) |> 
+  arrange(desc(n))   %>%
+  adorn_totals |> 
+  mutate(percent = print(paste(round(percent*100,2), "%"))) |> 
+  rename(
+    "Cantidad" = n,
+    "Porcentaje" = percent,
+    "Género" = genero
+  ) |> 
+  gt() %>%
+  tab_header(
+    title = "Distribución del Género en Buenos Aires",
+    subtitle = "Datos de género y frecuencia"
+  ) %>%
+  fmt_number(
+    columns = c(Cantidad),
+    decimals = 0) |> 
+  fmt_number(
+    columns = c(Porcentaje),
+    decimals = 2)
+```
+
+### Pirámide demográfica {.tabset}
+
+#### Argentina
+```{r}
 
 # Creo el rango etario para hacer la piramide poblacional
 titulares_personas <- titulares_personas |> 
@@ -176,7 +207,7 @@ rm(piramide_nac)
 
 ```
 
-### Provincia de buenos aires
+#### Provincia de buenos aires
 
 ```{r}
 
@@ -392,8 +423,18 @@ tabla <- mapa_provincia |>
          "Titulares 2022" = tot_titulares_2022,) |> 
   adorn_totals() 
 
-tabla |> 
-  kableExtra::kable()
+tabla |>
+  mutate(`Porcentaje 2020` = paste0(round(`Porcentaje 2020`,2),"%"),
+         `Porcentaje 2021` = paste0(round(`Porcentaje 2021`,2),"%"),
+         `Porcentaje 2022` = paste0(round(`Porcentaje 2022`,2),"%")) %>%
+  #Elimino las cantidades porque no tiene sentido
+  #select(-`Titulares 2020`,-`Titulares 2021`,-`Titulares 2022`) %>% 
+  gt()%>%
+  tab_header(
+    title = "Porcentaje de titulares por provincia y año",
+    subtitle = "Sobre el total de titulares"
+  ) 
+
 
 #Tabla para poner en el trabajo 
 
@@ -404,8 +445,9 @@ writexl::write_xlsx(tabla, "bases-para-cyn/titularesxprovinciayano.xlsx")
 
 ```
 
-### Mapa en función del % poblacional
+### Mapa en función del % poblacional {.tabset}
 
+#### Argentina
 ```{r}
 # Traigo el mapa de argentina con provincias
 mapa_arg <- get_geo("ARGENTINA", level = "provincia") |> 
@@ -479,14 +521,22 @@ mapa_nac <- ggplot(mapa_pob) +
 
 ggsave(plot = mapa_nac, "graficos/mapa-porc-titulares-x-poblacion.png")
 
-mapa_pob |> 
+para_tabla <- mapa_pob %>% 
   group_by(ano) |> 
-  summarise(total =sum(tot_titulares),
-            total_pob =sum(poblacion),
-            tot_prop = round((total/total_pob)*100,1)) |> 
-  select(-geometry) |> 
-  kableExtra::kable()
+  summarise(Titulares =sum(tot_titulares),
+            Poblacion =sum(poblacion),
+            Porcentaje = paste0(round((Titulares/Poblacion)*100,1),"%")) %>% 
+  rename("Año" = ano)
 
+para_tabla <- as.data.frame(para_tabla) %>% 
+  select(-geometry)
+
+para_tabla %>% 
+  gt() %>%
+  tab_header(
+    title = "Porcentaje de titulares por año",
+    subtitle = "En base a proyecciones poblacionales de INDEC"
+  ) 
 
 mapa_nac_interactivo <- ggplot(mapa_pob) +
   geom_sf(aes(fill = prop_ponlacional, text = paste("Provincia:", juri_nombre, "<br>Porcentaje:", prop_ponlacional, "%"))) +
@@ -509,7 +559,7 @@ ggplotly(mapa_nac_interactivo, tooltip = "text")
 ```
 
 
-Mapa Provincial
+#### Buenos Aires
 
 ```{r}
 #para ver cual es el codigo
@@ -557,7 +607,7 @@ tabla_pba <- mapa_pba |>
   select(departamento_nombre, ano, poblacion, titulares, porcentaje) |> 
   pivot_wider(names_from = ano, values_from = c(poblacion, titulares, porcentaje)) 
 
-DT::datatable(tabla_pba)
+#DT::datatable(tabla_pba)
 
 writexl::write_xlsx(tabla_pba, "bases-para-cyn/tabla_pba.xlsx")
 ```
@@ -589,14 +639,19 @@ mapa_buenos_aires <- base_final_pba |>
 ggsave(plot = mapa_buenos_aires, "graficos/mapa_buenos_aires.png")
 
 # Los datos totales de la provincia
-mapa_pba |> 
+
+mapa_pba  %>%
+  filter(!ano  ==  2021) %>% 
   group_by(ano) |> 
-  summarise(total =sum(titulares),
-            total_pob =sum(poblacion),
-            tot_prop = round((total/total_pob)*100,1))|> 
-  kableExtra::kable()
-
-
+  summarise(Titulares =sum(titulares),
+            Poblacion =sum(poblacion),
+            Porcentaje = paste0(round((Titulares/Poblacion)*100,1),"%")) %>% 
+  rename("Año" = ano) %>% 
+  gt() %>%
+  tab_header(
+    title = "Porcentaje de titulares por año en Buenos Aires",
+    subtitle = "En base a proyecciones poblacionales de INDEC"
+  ) 
 
 ggplotly(mapa_buenos_aires, tooltip = "text")
 ```
@@ -658,3 +713,24 @@ ggplotly(linea_ipc)
 ```
 
 https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31
+
+
+```{r}
+
+ipc  %>% # Convierte 'periodo' a formato de fecha
+  group_by("Año" = lubridate::year(periodo)) %>%
+  summarise(
+    "Primer periodo" = first(format.Date(periodo,"%b %Y")),
+    #ultimo_periodo = max(periodo),
+    "Primer monto" = paste0("",first(monto)),
+    #ultimo_monto = last(monto),
+    "Monto en precios reales" = paste0("",round(first(monto_real),2)),
+    #ultimo_monto_real = last(monto_real)
+  ) %>% 
+  gt() %>%
+  tab_header(
+    title = "Montos por año",
+    subtitle = "Primer período de cada año"
+  ) 
+```
+
