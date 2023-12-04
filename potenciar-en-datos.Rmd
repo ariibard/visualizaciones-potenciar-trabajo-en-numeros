@@ -333,9 +333,8 @@ linea <- ggplot(df_tendencia) +
   labs(
     x = " ",
     y = " ",
-    title = "Evolución de la cantidad de titulares ",
-    subtitle = "Del total del país y de la Provincia de Buenos Aires (2020-2022)",
-    caption = "Fuente: Elaboración propia en base a datos abiertos del MDSN",
+    title = "Gráfico 5: Evolución de la cantidad de titulares \n del total del país y de la Provincia de Buenos Aires",
+    #caption = "Fuente: Elaboración propia en base a datos abiertos del MDSN",
     color = "Jurisdicción"
   ) +
   ggthemes::theme_pander() +
@@ -343,7 +342,8 @@ linea <- ggplot(df_tendencia) +
     legend.position = "top",
     plot.title = element_text(size = 15L, face = "bold",
                               hjust = 0.5),
-    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5)
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    text = element_text(family = "serif")
   ) +
   scale_x_date(date_labels = "%b-%y", date_breaks = "3 months") +
   scale_y_continuous(labels = comma)
@@ -527,7 +527,7 @@ mapa_nac <- ggplot(mapa_pob) +
   theme(
     plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
     plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
-    text = element_text(size = 1)
+    text = element_text(size = 1, family = "serif")
   ) +
   ylab("") +
   xlab("") +
@@ -637,13 +637,13 @@ mapa_buenos_aires <- base_final_pba |>
                        direction = -1,
                        labels = percent_format(scale = 1)) +
   ggthemes::theme_pander() +
-  labs(title = "Porcentaje de titulares por departamento",
+  labs(title = "Gráfico 4: Porcentaje de titulares por departamento",
        subtitle = "En base a proyecciones de INDEC",
        fill = "Porcentaje") +
   theme(
     plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
     plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
-    text = element_text(size = 1)
+    text = element_text(size = 1, family = "serif")
   ) +
   ylab("") +
   xlab("") +
@@ -664,7 +664,7 @@ mapa_pba  %>%
   rename("Año" = ano) %>% 
   gt() %>%
   tab_header(
-    title = "Porcentaje de titulares por año en Buenos Aires",
+    title = "Tabla 6: Porcentaje de titulares por año en Buenos Aires",
     subtitle = "En base a proyecciones poblacionales de INDEC"
   ) 
 
@@ -708,15 +708,16 @@ linea_ipc <- ggplot(ipc) +
   labs(
     x = " ",
     y = " ",
-    title = "Evolución de los montos del programa (2020-2022)",
-    caption = "Fuente: Elaboración propia en base al IPC de INDEC",
+    title = "Gráfico 6: Evolución de los montos del programa",
+    #caption = "Fuente: Elaboración propia en base al IPC de INDEC",
   ) +
   ggthemes::theme_pander() +
   theme(
     legend.position = "top",
     plot.title = element_text(size = 15L, face = "bold",
                               hjust = 0.5),
-    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5)
+    plot.subtitle = element_text(size = 14L, face = "italic", hjust = 0.5),
+    text = element_text(family = "serif")
   ) +
   scale_x_date(date_labels = "%m-%y", date_breaks = "3 months") +
   scale_y_continuous(labels = comma, limits = c(1500,4000))
