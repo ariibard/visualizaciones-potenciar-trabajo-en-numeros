@@ -75,7 +75,7 @@ tabla_genero <- base_sexo |>
   ) |> 
   gt() %>%
   tab_header(
-    title = "Distribución del Género en Argentina",
+    title = "Tabla 2: Distribución del Género en Argentina",
     subtitle = "Datos de género y frecuencia"
   ) %>%
   fmt_number(
@@ -89,7 +89,7 @@ tabla_genero <- base_sexo |>
 tabla_genero
 
 # Guardo tabla
-gtsave(tabla_genero,filename = "graficos/distribucion_genero.html")
+gtsave(tabla_genero,filename = "graficos/html/distribucion_genero.html")
 
 # Borro
 rm(tabla_genero)
@@ -104,7 +104,7 @@ print(paste(2867+1086+721+437, "corresponden a disidencias. Es decir, el", (roun
 
 Distribución del género en PBA
 ```{r}
-base_sexo |>
+genero_pba <- base_sexo |>
   filter(provincia_id == "06") %>% 
   tabyl(genero) |> 
   arrange(desc(n))   %>%
@@ -117,7 +117,7 @@ base_sexo |>
   ) |> 
   gt() %>%
   tab_header(
-    title = "Distribución del Género en Buenos Aires",
+    title = "Tabla 3: Distribución del Género en Buenos Aires",
     subtitle = "Datos de género y frecuencia"
   ) %>%
   fmt_number(
@@ -126,6 +126,10 @@ base_sexo |>
   fmt_number(
     columns = c(Porcentaje),
     decimals = 2)
+
+genero_pba
+# Guardo tabla
+gtsave(genero_pba, filename = "graficos/html/distribucion_genero_pba.html")
 ```
 
 ### Pirámide demográfica {.tabset}
@@ -166,7 +170,8 @@ titulares_personas <- titulares_personas |>
 piramide_nac <- titulares_personas |>
   group_by(rango_etario, sexo) |>
   summarise(N = n()) |>
-  mutate(N = ifelse(sexo == "M",-N, N)) |>
+  mutate(prop = round(N/sum(N)*100,2),
+         N = ifelse(sexo == "M",-N, N)) |>
   rename(
     "Rango etario" = rango_etario,
     "sexo" = sexo,
@@ -177,9 +182,9 @@ piramide_nac <- titulares_personas |>
   geom_col() +
   scale_fill_manual(values = c(F = "#b22987",
                                M = "#2987b2")) +
- labs(x = " ", y = " ", title = "Piramide poblacional de Argentina",
-      subtitle = "Titulares del Potenciar Trabajo entre el año 2020 y 2022 (en miles)",
-      caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
+ labs(x = " ", y = " ", title = "Gráfico 1: Titulares del Potenciar Trabajo de Argentina 2020-2022 (en miles)",
+      #subtitle = ,
+      #caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
  fill = "Sexo")  +
   coord_flip() +
   ggthemes::theme_pander()+
@@ -189,18 +194,20 @@ piramide_nac <- titulares_personas |>
     plot.caption = element_text(size = 8L),
     axis.title.y = element_text(size = 9L),
     axis.title.x = element_text(size = 9L),
-    text = element_text(size =8L)
+    text = element_text(size =8L, family = "serif")
   ) +
   scale_y_continuous(breaks = c( -50000, -100000, -150000, -200000, -250000, -300000, -350000,0, 50000, 100000, 150000, 200000, 250000, 300000, 350000),
                      labels = c(50, 100, 150, 200, 250, 300, 350,0, 50, 100, 150, 200, 250, 300, 350),
                      limits = c(-350000,350000)
                     ) 
 
-ggsave(plot = piramide_nac, "graficos/piramide-argentina.png")
+ggsave(plot = piramide_nac, "graficos/1_piramide-argentina.png", height = 6,width = 8)
 
 plotly_nac <- ggplotly(piramide_nac)
 
 plotly_nac
+
+# htmlwidgets::saveWidget(plotly_nac, "graficos/html/1_piramide-argentina.html", selfcontained = TRUE)
 rm(piramide_nac)
 
 #Guardo html
@@ -230,9 +237,9 @@ piramida_pba <- titulares_pba |>
   geom_col() +
   scale_fill_manual(values = c(F = "#b22987",
                                M = "#2987b2")) +
- labs(x = " ", y = " ", title = "Piramide poblacional de Buenos Aires",
-      subtitle = "Titulares del Potenciar Trabajo entre el año 2020 y 2022 (en miles)",
-      caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
+ labs(x = " ", y = " ", title = "Gráfico 2: Titulares del Potenciar Trabajo de la Provincia de Buenos Aires \n entre el año 2020 y 2022 (en miles)",
+      #ubtitle = "Titulares del Potenciar Trabajo entre el año 2020 y 2022 (en miles)",
+      #caption = "Fuente: Elaboración propia en base a datos abiertos del Ministerio de Desarrollo Social de la Nación", 
  fill = "Sexo")  +
   coord_flip() +
   ggthemes::theme_pander()+
@@ -242,18 +249,18 @@ piramida_pba <- titulares_pba |>
     plot.caption = element_text(size = 8L),
     axis.title.y = element_text(size = 9L),
     axis.title.x = element_text(size = 9L),
-    text = element_text(size =8L)
+    text = element_text(size =8L, family = "serif")
   ) +
   scale_y_continuous(breaks = c( -50000, -100000, -150000, -200000, 0, 50000, 100000, 150000, 200000),
                      labels = c(50, 100, 150, 200, 0, 50, 100, 150, 200),
                      limits = c(-200000,200000)
                     ) 
-ggsave(plot= piramida_pba, "graficos/piramide-baires.png")
+ggsave(plot= piramida_pba, "graficos/2_piramide-baires.png", height = 6,width = 9)
 
 # Muestro
-ggplotly(piramida_pba)
-
-rm(piramida_pba)
+plot_pba <- ggplotly(piramida_pba)
+plot_pba
+rm(piramida_pba,plot_pba)
 
 ```
 
@@ -423,7 +430,7 @@ tabla <- mapa_provincia |>
          "Titulares 2022" = tot_titulares_2022,) |> 
   adorn_totals() 
 
-tabla |>
+tabla_por_prov <- tabla |>
   mutate(`Porcentaje 2020` = paste0(round(`Porcentaje 2020`,2),"%"),
          `Porcentaje 2021` = paste0(round(`Porcentaje 2021`,2),"%"),
          `Porcentaje 2022` = paste0(round(`Porcentaje 2022`,2),"%")) %>%
@@ -431,16 +438,16 @@ tabla |>
   #select(-`Titulares 2020`,-`Titulares 2021`,-`Titulares 2022`) %>% 
   gt()%>%
   tab_header(
-    title = "Porcentaje de titulares por provincia y año",
+    title = "Tabla 4: Porcentaje de titulares por provincia y año",
     subtitle = "Sobre el total de titulares"
   ) 
 
-
+tabla_por_prov
 #Tabla para poner en el trabajo 
 
 writexl::write_xlsx(tabla, "bases-para-cyn/titularesxprovinciayano.xlsx")
 
-
+gtsave(tabla_por_prov, filename = "graficos/html/tabla_por_prov.html")
 
 
 ```
@@ -483,6 +490,14 @@ mapa_provincia_pob <- mapa_provincia |>
   group_by(ano, provincia_id) |> 
   mutate(prop_ponlacional = (tot_titulares/poblacion))
 
+variacion <- mapa_provincia_pob |> 
+  mutate(prop_ponlacional*100) |> 
+  select(ano, prop_ponlacional, nombres_provincias) |> 
+  pivot_wider(names_from = ano, values_from = prop_ponlacional) |> 
+  mutate(crecimiento = ((`2022`-`2020`)/`2020`)*100) |> 
+  arrange(desc(crecimiento))
+
+
 
 mapa_provincia_pob$prop_ponlacional <- round(mapa_provincia_pob$prop_ponlacional*100,2)
 
@@ -506,7 +521,7 @@ mapa_nac <- ggplot(mapa_pob) +
                        direction = -1,
                        labels = percent_format(scale = 1)) +
   ggthemes::theme_pander() +
-  labs(title = "Porcentaje de titulares por provincia",
+  labs(title = "Grafico 3: Porcentaje de titulares por provincia",
        subtitle = "En base a proyecciones de INDEC",
        fill = "Porcentaje") +
   theme(
@@ -534,7 +549,7 @@ para_tabla <- as.data.frame(para_tabla) %>%
 para_tabla %>% 
   gt() %>%
   tab_header(
-    title = "Porcentaje de titulares por año",
+    title = "Tabla 5: Porcentaje de titulares por año",
     subtitle = "En base a proyecciones poblacionales de INDEC"
   ) 
 
@@ -544,7 +559,7 @@ mapa_nac_interactivo <- ggplot(mapa_pob) +
                        direction = -1,
                        labels = percent_format(scale = 1)) +
   ggthemes::theme_pander() +
-  labs(title = "Porcentaje de titulares por provincia en base a proyecciones de INDEC",
+  labs(title = "Gráfico 3: Porcentaje de titulares por provincia en base a proyecciones de INDEC",
        fill = "Porcentaje") +
   theme(
     plot.title = element_text(size = 16L, face = "bold", hjust = 0.5),
