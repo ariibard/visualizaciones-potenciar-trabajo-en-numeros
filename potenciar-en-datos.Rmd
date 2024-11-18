@@ -38,14 +38,6 @@ options(scipen=999)
 
 ## Perfil de los y las titulares del programa
 
-En este apartado, caracterizamos el perfil de los y las titulares teniendo en cuenta la edad, el género y la nacionalidad. En lo que refiere …..
-A nivel país, en la siguiente Pirámide Poblacional de los Titulares del potenciar trabajo de Argentina (2020 y 2022).
-
-
-El 86% de los titulares es Argentino. El 4.7% no tiene información sobre la nacionalidad
-
-<!-- Habría que limpiarlo. No tiene sentido usarlo -->
-
 ### Género y sexo {.tabset}
 
 #### Total pais
@@ -89,7 +81,7 @@ tabla_genero <- base_sexo |>
 tabla_genero
 
 # Guardo tabla
-gtsave(tabla_genero,filename = "graficos/html/distribucion_genero.html")
+gtsave(tabla_genero,filename = "graficos/distribucion_genero.html")
 
 # Borro
 rm(tabla_genero)
@@ -129,7 +121,7 @@ genero_pba <- base_sexo |>
 
 genero_pba
 # Guardo tabla
-gtsave(genero_pba, filename = "graficos/html/distribucion_genero_pba.html")
+gtsave(genero_pba, filename = "graficos/distribucion_genero_pba.html")
 ```
 
 ### Pirámide demográfica {.tabset}
@@ -299,16 +291,14 @@ titulares_personas |>
 
 ```
 
-<!-- Se podría hacer con las proyecciones del indec el % de población que lo recibe para ver porcentualmente cuanto representa -->
 
 
 ## Evolución de los titulares / permanencia en el programa
 
-Titulares por periodo y jurisdicción gráfico lineal
 
 ```{r}
 #titulares por periodo y jurisdiccion (municipio)
-total_titulares <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c4caa724-dfbb-4aac-bfe7-2169f4154bc5/download/potenciar-trabajo-titulares-activos-2022-10-01.csv")
+total_titulares <- read_csv("data/potenciar-trabajo-titulares-activos-2022-10-01.csv")
 # Titulares por periodo y jurisdicción gráfico lineal
 
 tit_argentina <- total_titulares |> 
@@ -348,7 +338,7 @@ linea <- ggplot(df_tendencia) +
   scale_x_date(date_labels = "%b-%y", date_breaks = "3 months") +
   scale_y_continuous(labels = comma)
 
-ggsave(plot = linea, "graficos/linea.png")
+ggsave(plot = linea, "graficos/evolucion_cantidad_titulares.png")
 
 ggplotly(linea)
 ```
@@ -362,7 +352,7 @@ ggplotly(linea)
 rm(base_sexo, df_tendencia, titulares_pba)
 
 # ultimo cobro del titular (se podria mapear)
-titulares_ano <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/d45687c0-f2ba-41d9-9989-0ad9799308ae/resource/c5c925e0-7ce0-41e5-b3ff-8ebb51d4be72/download/potenciar-trabajo-titulares-2022-10-01.csv")
+titulares_ano <- read_csv("data/potenciar-trabajo-titulares-2022-10-01.csv")
 
 
 # Armo el grafico de titulares totales
@@ -445,9 +435,9 @@ tabla_por_prov <- tabla |>
 tabla_por_prov
 #Tabla para poner en el trabajo 
 
-writexl::write_xlsx(tabla, "bases-para-cyn/titularesxprovinciayano.xlsx")
+writexl::write_xlsx(tabla, "tablas/titularesxprovinciayano.xlsx")
 
-gtsave(tabla_por_prov, filename = "graficos/html/tabla_por_prov.html")
+gtsave(tabla_por_prov, filename = "graficos/tabla_por_prov_absolutos.html")
 
 
 ```
@@ -502,7 +492,7 @@ variacion <- mapa_provincia_pob |>
 mapa_provincia_pob$prop_ponlacional <- round(mapa_provincia_pob$prop_ponlacional*100,2)
 
 #guardo excel)*
-writexl::write_xlsx(mapa_provincia_pob, "bases-para-cyn/tot_titulares_provincia_indec.xlsx")
+writexl::write_xlsx(mapa_provincia_pob, "tablas/tot_titulares_provincia_indec.xlsx")
 
 #Uno con el mapa 
 mapa_pob <- mapa_arg |> 
@@ -624,7 +614,7 @@ tabla_pba <- mapa_pba |>
 
 #DT::datatable(tabla_pba)
 
-writexl::write_xlsx(tabla_pba, "bases-para-cyn/tabla_pba.xlsx")
+writexl::write_xlsx(tabla_pba, "tablas/tabla_pba.xlsx")
 ```
 
 
@@ -651,7 +641,7 @@ mapa_buenos_aires <- base_final_pba |>
 
 #mapa_buenos_aires
 
-ggsave(plot = mapa_buenos_aires, "graficos/mapa_buenos_aires.png")
+ggsave(plot = mapa_buenos_aires, "graficos/mapa_porc_titulares_poblacion_buenos_aires.png")
 
 # Los datos totales de la provincia
 
@@ -675,7 +665,7 @@ ggplotly(mapa_buenos_aires, tooltip = "text")
 
 ```{r}
 # Filtro el monto por potenciar trabajo
-montos_vigentes <- read_csv("https://datosabiertos.desarrollosocial.gob.ar/dataset/2fbfb3e2-cd0a-4d1b-ac3b-89326e8e4f9c/resource/6778396e-75f7-4fce-ac65-97d1e5e4525e/download/montos-transferencias-2023-01-01.csv") |> 
+montos_vigentes <- read_csv("data/montos-transferencias-2023-01-01.csv") |> 
   filter(programa == "Potenciar Trabajo") |> 
   mutate(periodo = format.Date(periodo, "%m/%Y"))
 
@@ -728,7 +718,6 @@ ggsave(plot = linea_ipc, "graficos/linea_ipc.png")
 ggplotly(linea_ipc)
 ```
 
-https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-5-31
 
 
 ```{r}

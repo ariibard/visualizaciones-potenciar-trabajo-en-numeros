@@ -1,0 +1,367 @@
+periodo,monto,programa,programa_id,concepto
+2009-10-31,1200.0,Argentina Trabaja,1,Prestación
+2009-11-30,1200.0,Argentina Trabaja,1,Prestación
+2009-12-31,1200.0,Argentina Trabaja,1,Prestación
+2010-01-31,1200.0,Argentina Trabaja,1,Prestación
+2010-02-28,1200.0,Argentina Trabaja,1,Prestación
+2010-03-31,1200.0,Argentina Trabaja,1,Prestación
+2010-04-30,1200.0,Argentina Trabaja,1,Prestación
+2010-05-31,1200.0,Argentina Trabaja,1,Prestación
+2010-06-30,1200.0,Argentina Trabaja,1,Prestación
+2010-07-31,1200.0,Argentina Trabaja,1,Prestación
+2010-08-31,1200.0,Argentina Trabaja,1,Prestación
+2010-09-30,1200.0,Argentina Trabaja,1,Prestación
+2010-10-31,1200.0,Argentina Trabaja,1,Prestación
+2010-11-30,1200.0,Argentina Trabaja,1,Prestación
+2010-12-31,1200.0,Argentina Trabaja,1,Prestación
+2011-01-31,1200.0,Argentina Trabaja,1,Prestación
+2011-02-28,1200.0,Argentina Trabaja,1,Prestación
+2011-03-31,1200.0,Argentina Trabaja,1,Prestación
+2011-04-30,1200.0,Argentina Trabaja,1,Prestación
+2011-05-31,1200.0,Argentina Trabaja,1,Prestación
+2011-06-30,1200.0,Argentina Trabaja,1,Prestación
+2011-07-31,1200.0,Argentina Trabaja,1,Prestación
+2011-08-31,1200.0,Argentina Trabaja,1,Prestación
+2011-09-30,1200.0,Argentina Trabaja,1,Prestación
+2011-10-31,1200.0,Argentina Trabaja,1,Prestación
+2011-11-30,1200.0,Argentina Trabaja,1,Prestación
+2011-12-31,1200.0,Argentina Trabaja,1,Prestación
+2012-01-31,1200.0,Argentina Trabaja,1,Prestación
+2012-02-29,1200.0,Argentina Trabaja,1,Prestación
+2012-03-31,1200.0,Argentina Trabaja,1,Prestación
+2012-04-30,1200.0,Argentina Trabaja,1,Prestación
+2012-05-31,1200.0,Argentina Trabaja,1,Prestación
+2012-06-30,1200.0,Argentina Trabaja,1,Prestación
+2012-07-31,1200.0,Argentina Trabaja,1,Prestación
+2012-08-31,1200.0,Argentina Trabaja,1,Prestación
+2012-09-30,1200.0,Argentina Trabaja,1,Prestación
+2012-10-31,1200.0,Argentina Trabaja,1,Prestación
+2012-11-30,1200.0,Argentina Trabaja,1,Prestación
+2012-12-31,1200.0,Argentina Trabaja,1,Prestación
+2013-01-31,1200.0,Argentina Trabaja,1,Prestación
+2013-02-28,1200.0,Argentina Trabaja,1,Prestación
+2013-03-31,1200.0,Argentina Trabaja,1,Prestación
+2013-04-30,1200.0,Argentina Trabaja,1,Prestación
+2013-05-31,1200.0,Ellas Hacen,2,Prestación
+2013-05-31,800.0,Ellas Hacen,2,Presentismo
+2013-05-31,800.0,Argentina Trabaja,1,Presentismo
+2013-05-31,1200.0,Argentina Trabaja,1,Prestación
+2013-06-30,800.0,Argentina Trabaja,1,Presentismo
+2013-06-30,800.0,Ellas Hacen,2,Presentismo
+2013-06-30,1200.0,Argentina Trabaja,1,Prestación
+2013-06-30,1200.0,Ellas Hacen,2,Prestación
+2013-07-31,1200.0,Ellas Hacen,2,Prestación
+2013-07-31,800.0,Ellas Hacen,2,Presentismo
+2013-07-31,800.0,Argentina Trabaja,1,Presentismo
+2013-07-31,1200.0,Argentina Trabaja,1,Prestación
+2013-08-31,1200.0,Ellas Hacen,2,Prestación
+2013-08-31,1200.0,Argentina Trabaja,1,Prestación
+2013-08-31,800.0,Argentina Trabaja,1,Presentismo
+2013-08-31,800.0,Ellas Hacen,2,Presentismo
+2013-09-30,1200.0,Ellas Hacen,2,Prestación
+2013-09-30,800.0,Argentina Trabaja,1,Presentismo
+2013-09-30,1200.0,Argentina Trabaja,1,Prestación
+2013-09-30,800.0,Ellas Hacen,2,Presentismo
+2013-10-31,1200.0,Ellas Hacen,2,Prestación
+2013-10-31,800.0,Argentina Trabaja,1,Presentismo
+2013-10-31,1200.0,Argentina Trabaja,1,Prestación
+2013-10-31,800.0,Ellas Hacen,2,Presentismo
+2013-11-30,800.0,Ellas Hacen,2,Presentismo
+2013-11-30,800.0,Argentina Trabaja,1,Presentismo
+2013-11-30,1200.0,Argentina Trabaja,1,Prestación
+2013-11-30,1200.0,Ellas Hacen,2,Prestación
+2013-12-31,1200.0,Ellas Hacen,2,Prestación
+2013-12-31,1200.0,Argentina Trabaja,1,Prestación
+2013-12-31,800.0,Ellas Hacen,2,Presentismo
+2013-12-31,800.0,Argentina Trabaja,1,Presentismo
+2014-01-31,1200.0,Ellas Hacen,2,Prestación
+2014-01-31,1200.0,Argentina Trabaja,1,Prestación
+2014-01-31,800.0,Ellas Hacen,2,Presentismo
+2014-01-31,800.0,Argentina Trabaja,1,Presentismo
+2014-02-28,1200.0,Ellas Hacen,2,Prestación
+2014-02-28,800.0,Argentina Trabaja,1,Presentismo
+2014-02-28,1200.0,Argentina Trabaja,1,Prestación
+2014-02-28,800.0,Ellas Hacen,2,Presentismo
+2014-03-31,800.0,Ellas Hacen,2,Presentismo
+2014-03-31,1200.0,Ellas Hacen,2,Prestación
+2014-03-31,1200.0,Argentina Trabaja,1,Prestación
+2014-03-31,800.0,Argentina Trabaja,1,Presentismo
+2014-04-30,1200.0,Argentina Trabaja,1,Prestación
+2014-04-30,800.0,Ellas Hacen,2,Presentismo
+2014-04-30,800.0,Argentina Trabaja,1,Presentismo
+2014-04-30,1200.0,Ellas Hacen,2,Prestación
+2014-05-31,800.0,Argentina Trabaja,1,Presentismo
+2014-05-31,1200.0,Argentina Trabaja,1,Prestación
+2014-05-31,800.0,Ellas Hacen,2,Presentismo
+2014-05-31,1200.0,Ellas Hacen,2,Prestación
+2014-06-30,800.0,Argentina Trabaja,1,Presentismo
+2014-06-30,800.0,Ellas Hacen,2,Presentismo
+2014-06-30,1200.0,Ellas Hacen,2,Prestación
+2014-06-30,1200.0,Argentina Trabaja,1,Prestación
+2014-07-31,800.0,Ellas Hacen,2,Presentismo
+2014-07-31,1200.0,Ellas Hacen,2,Prestación
+2014-07-31,800.0,Argentina Trabaja,1,Presentismo
+2014-07-31,1200.0,Argentina Trabaja,1,Prestación
+2014-08-31,800.0,Argentina Trabaja,1,Presentismo
+2014-08-31,1200.0,Ellas Hacen,2,Prestación
+2014-08-31,1200.0,Argentina Trabaja,1,Prestación
+2014-08-31,800.0,Ellas Hacen,2,Presentismo
+2014-09-30,800.0,Argentina Trabaja,1,Presentismo
+2014-09-30,1200.0,Argentina Trabaja,1,Prestación
+2014-09-30,1200.0,Ellas Hacen,2,Prestación
+2014-09-30,800.0,Ellas Hacen,2,Presentismo
+2014-10-31,800.0,Argentina Trabaja,1,Presentismo
+2014-10-31,1200.0,Ellas Hacen,2,Prestación
+2014-10-31,1200.0,Argentina Trabaja,1,Prestación
+2014-10-31,800.0,Ellas Hacen,2,Presentismo
+2014-11-30,1400.0,Ellas Hacen,2,Presentismo
+2014-11-30,1400.0,Argentina Trabaja,1,Presentismo
+2014-11-30,1200.0,Argentina Trabaja,1,Prestación
+2014-11-30,1200.0,Ellas Hacen,2,Prestación
+2014-12-31,1400.0,Ellas Hacen,2,Presentismo
+2014-12-31,1200.0,Ellas Hacen,2,Prestación
+2014-12-31,1400.0,Argentina Trabaja,1,Presentismo
+2014-12-31,1200.0,Argentina Trabaja,1,Prestación
+2015-01-31,1200.0,Ellas Hacen,2,Prestación
+2015-01-31,1400.0,Ellas Hacen,2,Presentismo
+2015-01-31,1200.0,Argentina Trabaja,1,Prestación
+2015-01-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-02-28,1200.0,Ellas Hacen,2,Prestación
+2015-02-28,1200.0,Argentina Trabaja,1,Prestación
+2015-02-28,1400.0,Argentina Trabaja,1,Presentismo
+2015-02-28,1400.0,Ellas Hacen,2,Presentismo
+2015-03-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-03-31,1200.0,Argentina Trabaja,1,Prestación
+2015-03-31,1400.0,Ellas Hacen,2,Presentismo
+2015-03-31,1200.0,Ellas Hacen,2,Prestación
+2015-04-30,1400.0,Argentina Trabaja,1,Presentismo
+2015-04-30,1200.0,Argentina Trabaja,1,Prestación
+2015-04-30,1400.0,Ellas Hacen,2,Presentismo
+2015-04-30,1200.0,Ellas Hacen,2,Prestación
+2015-05-31,1200.0,Ellas Hacen,2,Prestación
+2015-05-31,1200.0,Argentina Trabaja,1,Prestación
+2015-05-31,1400.0,Ellas Hacen,2,Presentismo
+2015-05-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-06-30,1400.0,Argentina Trabaja,1,Presentismo
+2015-06-30,1200.0,Argentina Trabaja,1,Prestación
+2015-06-30,1400.0,Ellas Hacen,2,Presentismo
+2015-06-30,1200.0,Ellas Hacen,2,Prestación
+2015-07-31,1200.0,Ellas Hacen,2,Prestación
+2015-07-31,1200.0,Argentina Trabaja,1,Prestación
+2015-07-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-07-31,1400.0,Ellas Hacen,2,Presentismo
+2015-08-31,1400.0,Ellas Hacen,2,Presentismo
+2015-08-31,1200.0,Argentina Trabaja,1,Prestación
+2015-08-31,1200.0,Ellas Hacen,2,Prestación
+2015-08-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-09-30,1400.0,Argentina Trabaja,1,Presentismo
+2015-09-30,1200.0,Ellas Hacen,2,Prestación
+2015-09-30,1400.0,Ellas Hacen,2,Presentismo
+2015-09-30,1200.0,Argentina Trabaja,1,Prestación
+2015-10-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-10-31,1200.0,Ellas Hacen,2,Prestación
+2015-10-31,1400.0,Ellas Hacen,2,Presentismo
+2015-10-31,1200.0,Argentina Trabaja,1,Prestación
+2015-11-30,1400.0,Argentina Trabaja,1,Presentismo
+2015-11-30,1200.0,Ellas Hacen,2,Prestación
+2015-11-30,1400.0,Ellas Hacen,2,Presentismo
+2015-11-30,1200.0,Argentina Trabaja,1,Prestación
+2015-12-31,1400.0,Argentina Trabaja,1,Presentismo
+2015-12-31,1400.0,Ellas Hacen,2,Presentismo
+2015-12-31,1200.0,Ellas Hacen,2,Prestación
+2015-12-31,1200.0,Argentina Trabaja,1,Prestación
+2016-01-31,1400.0,Ellas Hacen,2,Presentismo
+2016-01-31,1200.0,Argentina Trabaja,1,Prestación
+2016-01-31,1400.0,Argentina Trabaja,1,Presentismo
+2016-01-31,1200.0,Ellas Hacen,2,Prestación
+2016-02-29,1200.0,Argentina Trabaja,1,Prestación
+2016-02-29,1400.0,Argentina Trabaja,1,Presentismo
+2016-02-29,1200.0,Ellas Hacen,2,Prestación
+2016-02-29,1400.0,Ellas Hacen,2,Presentismo
+2016-03-31,1200.0,Argentina Trabaja,1,Prestación
+2016-03-31,1400.0,Argentina Trabaja,1,Presentismo
+2016-03-31,1200.0,Ellas Hacen,2,Prestación
+2016-03-31,1400.0,Ellas Hacen,2,Presentismo
+2016-04-30,1720.0,Argentina Trabaja,1,Prestación
+2016-04-30,1400.0,Ellas Hacen,2,Presentismo
+2016-04-30,1400.0,Argentina Trabaja,1,Presentismo
+2016-04-30,1720.0,Ellas Hacen,2,Prestación
+2016-05-31,1720.0,Argentina Trabaja,1,Prestación
+2016-05-31,1720.0,Ellas Hacen,2,Prestación
+2016-05-31,1400.0,Argentina Trabaja,1,Presentismo
+2016-05-31,1400.0,Ellas Hacen,2,Presentismo
+2016-06-30,1400.0,Argentina Trabaja,1,Presentismo
+2016-06-30,1720.0,Ellas Hacen,2,Prestación
+2016-06-30,1400.0,Ellas Hacen,2,Presentismo
+2016-06-30,1720.0,Argentina Trabaja,1,Prestación
+2016-07-31,1720.0,Ellas Hacen,2,Prestación
+2016-07-31,1400.0,Ellas Hacen,2,Presentismo
+2016-07-31,1400.0,Argentina Trabaja,1,Presentismo
+2016-07-31,1720.0,Argentina Trabaja,1,Prestación
+2016-08-31,1400.0,Ellas Hacen,2,Presentismo
+2016-08-31,2030.0,Argentina Trabaja,1,Prestación
+2016-08-31,1400.0,Argentina Trabaja,1,Presentismo
+2016-08-31,2030.0,Ellas Hacen,2,Prestación
+2016-09-30,2030.0,Argentina Trabaja,1,Prestación
+2016-09-30,2030.0,Ellas Hacen,2,Prestación
+2016-09-30,1400.0,Ellas Hacen,2,Presentismo
+2016-09-30,1400.0,Argentina Trabaja,1,Presentismo
+2016-10-31,1400.0,Ellas Hacen,2,Presentismo
+2016-10-31,2030.0,Ellas Hacen,2,Prestación
+2016-10-31,1400.0,Argentina Trabaja,1,Presentismo
+2016-10-31,2030.0,Argentina Trabaja,1,Prestación
+2016-11-30,1400.0,Argentina Trabaja,1,Presentismo
+2016-11-30,2030.0,Argentina Trabaja,1,Prestación
+2016-11-30,1400.0,Ellas Hacen,2,Presentismo
+2016-11-30,2030.0,Ellas Hacen,2,Prestación
+2016-12-31,2030.0,Ellas Hacen,2,Prestación
+2016-12-31,2000.0,Ellas Hacen,2,Presentismo
+2016-12-31,2000.0,Argentina Trabaja,1,Presentismo
+2016-12-31,2030.0,Argentina Trabaja,1,Prestación
+2017-01-31,2200.0,Ellas Hacen,2,Presentismo
+2017-01-31,2230.0,Ellas Hacen,2,Prestación
+2017-01-31,2200.0,Argentina Trabaja,1,Presentismo
+2017-01-31,2230.0,Argentina Trabaja,1,Prestación
+2017-02-28,2230.0,Argentina Trabaja,1,Prestación
+2017-02-28,2230.0,Ellas Hacen,2,Prestación
+2017-02-28,2200.0,Ellas Hacen,2,Presentismo
+2017-02-28,2200.0,Argentina Trabaja,1,Presentismo
+2017-03-31,2200.0,Ellas Hacen,2,Presentismo
+2017-03-31,2200.0,Argentina Trabaja,1,Presentismo
+2017-03-31,2230.0,Argentina Trabaja,1,Prestación
+2017-03-31,2230.0,Ellas Hacen,2,Prestación
+2017-04-30,2200.0,Argentina Trabaja,1,Presentismo
+2017-04-30,2230.0,Argentina Trabaja,1,Prestación
+2017-04-30,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-04-30,2230.0,Ellas Hacen,2,Prestación
+2017-04-30,2200.0,Ellas Hacen,2,Presentismo
+2017-05-31,2230.0,Ellas Hacen,2,Prestación
+2017-05-31,2200.0,Ellas Hacen,2,Presentismo
+2017-05-31,2200.0,Argentina Trabaja,1,Presentismo
+2017-05-31,2230.0,Argentina Trabaja,1,Prestación
+2017-05-31,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-06-30,2230.0,Ellas Hacen,2,Prestación
+2017-06-30,2230.0,Argentina Trabaja,1,Prestación
+2017-06-30,2200.0,Argentina Trabaja,1,Presentismo
+2017-06-30,2200.0,Ellas Hacen,2,Presentismo
+2017-06-30,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-07-31,2230.0,Ellas Hacen,2,Prestación
+2017-07-31,2230.0,Argentina Trabaja,1,Prestación
+2017-07-31,2200.0,Argentina Trabaja,1,Presentismo
+2017-07-31,2200.0,Ellas Hacen,2,Presentismo
+2017-07-31,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-08-31,2200.0,Ellas Hacen,2,Presentismo
+2017-08-31,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-08-31,2200.0,Argentina Trabaja,1,Presentismo
+2017-08-31,2230.0,Argentina Trabaja,1,Prestación
+2017-08-31,2230.0,Ellas Hacen,2,Prestación
+2017-09-30,2230.0,Argentina Trabaja,1,Prestación
+2017-09-30,2200.0,Ellas Hacen,2,Presentismo
+2017-09-30,2200.0,Argentina Trabaja,1,Presentismo
+2017-09-30,2230.0,Ellas Hacen,2,Prestación
+2017-09-30,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-10-31,2200.0,Ellas Hacen,2,Presentismo
+2017-10-31,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-10-31,2230.0,Argentina Trabaja,1,Prestación
+2017-10-31,2230.0,Ellas Hacen,2,Prestación
+2017-10-31,2200.0,Argentina Trabaja,1,Presentismo
+2017-11-30,2230.0,Ellas Hacen,2,Prestación
+2017-11-30,2230.0,Argentina Trabaja,1,Prestación
+2017-11-30,2200.0,Ellas Hacen,2,Presentismo
+2017-11-30,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-11-30,2200.0,Argentina Trabaja,1,Presentismo
+2017-12-31,4430.0,Proyectos productivos comunitarios,3,Prestación
+2017-12-31,2230.0,Argentina Trabaja,1,Prestación
+2017-12-31,2200.0,Ellas Hacen,2,Presentismo
+2017-12-31,2230.0,Ellas Hacen,2,Prestación
+2017-12-31,2200.0,Argentina Trabaja,1,Presentismo
+2018-01-31,2390.0,Ellas Hacen,2,Prestación
+2018-01-31,2360.0,Ellas Hacen,2,Presentismo
+2018-01-31,2360.0,Argentina Trabaja,1,Presentismo
+2018-01-31,2390.0,Argentina Trabaja,1,Prestación
+2018-01-31,4750.0,Proyectos productivos comunitarios,3,Prestación
+2018-02-28,4750.0,Proyectos productivos comunitarios,3,Prestación
+2018-02-28,4750.0,Hacemos Futuro,4,Prestación
+2018-03-31,4750.0,Hacemos Futuro,4,Prestación
+2018-03-31,4750.0,Proyectos productivos comunitarios,3,Prestación
+2018-04-30,4750.0,Proyectos productivos comunitarios,3,Prestación
+2018-04-30,4750.0,Hacemos Futuro,4,Prestación
+2018-05-31,4750.0,Proyectos productivos comunitarios,3,Prestación
+2018-05-31,4750.0,Hacemos Futuro,4,Prestación
+2018-06-30,4750.0,Proyectos productivos comunitarios,3,Prestación
+2018-06-30,4750.0,Hacemos Futuro,4,Prestación
+2018-07-31,5500.0,Proyectos productivos comunitarios,3,Prestación
+2018-07-31,5500.0,Hacemos Futuro,4,Prestación
+2018-08-31,5500.0,Hacemos Futuro,4,Prestación
+2018-08-31,5500.0,Proyectos productivos comunitarios,3,Prestación
+2018-09-30,5750.0,Hacemos Futuro,4,Prestación
+2018-09-30,5750.0,Proyectos productivos comunitarios,3,Prestación
+2018-10-31,5750.0,Hacemos Futuro,4,Prestación
+2018-10-31,5750.0,Proyectos productivos comunitarios,3,Prestación
+2018-11-30,6000.0,Hacemos Futuro,4,Prestación
+2018-11-30,6000.0,Proyectos productivos comunitarios,3,Prestación
+2018-12-31,6000.0,Hacemos Futuro,4,Prestación
+2018-12-31,6000.0,Proyectos productivos comunitarios,3,Prestación
+2019-01-31,6000.0,Hacemos Futuro,4,Prestación
+2019-01-31,6000.0,Proyectos productivos comunitarios,3,Prestación
+2019-02-28,6000.0,Hacemos Futuro,4,Prestación
+2019-02-28,6000.0,Proyectos productivos comunitarios,3,Prestación
+2019-03-31,6250.0,Hacemos Futuro,4,Prestación
+2019-03-31,6250.0,Proyectos productivos comunitarios,3,Prestación
+2019-04-30,6250.0,Proyectos productivos comunitarios,3,Prestación
+2019-04-30,6250.0,Hacemos Futuro,4,Prestación
+2019-05-31,6500.0,Hacemos Futuro,4,Prestación
+2019-05-31,6500.0,Proyectos productivos comunitarios,3,Prestación
+2019-06-30,7500.0,Hacemos Futuro,4,Prestación
+2019-06-30,7500.0,Proyectos productivos comunitarios,3,Prestación
+2019-07-31,7500.0,Hacemos Futuro,4,Prestación
+2019-07-31,7500.0,Proyectos productivos comunitarios,3,Prestación
+2019-08-31,7500.0,Hacemos Futuro,4,Prestación
+2019-08-31,7500.0,Proyectos productivos comunitarios,3,Prestación
+2019-09-30,8000.0,Hacemos Futuro,4,Prestación
+2019-09-30,8000.0,Proyectos productivos comunitarios,3,Prestación
+2019-10-31,8500.0,Proyectos productivos comunitarios,3,Prestación
+2019-10-31,8500.0,Hacemos Futuro,4,Prestación
+2019-11-30,8500.0,Proyectos productivos comunitarios,3,Prestación
+2019-11-30,8500.0,Hacemos Futuro,4,Prestación
+2019-12-31,8500.0,Proyectos productivos comunitarios,3,Prestación
+2019-12-31,8500.0,Hacemos Futuro,4,Prestación
+2020-01-31,8500.0,Proyectos productivos comunitarios,3,Prestación
+2020-01-31,8500.0,Hacemos Futuro,4,Prestación
+2020-02-29,8500.0,Hacemos Futuro,4,Prestación
+2020-02-29,8500.0,Proyectos productivos comunitarios,3,Prestación
+2020-03-31,8500.0,Potenciar Trabajo,5,Prestación
+2020-04-30,8500.0,Potenciar Trabajo,5,Prestación
+2020-05-31,8500.0,Potenciar Trabajo,5,Prestación
+2020-06-30,8500.0,Potenciar Trabajo,5,Prestación
+2020-07-31,8500.0,Potenciar Trabajo,5,Prestación
+2020-08-31,8500.0,Potenciar Trabajo,5,Prestación
+2020-09-30,8500.0,Potenciar Trabajo,5,Prestación
+2020-10-31,9450.0,Potenciar Trabajo,5,Prestación
+2020-11-30,9450.0,Potenciar Trabajo,5,Prestación
+2020-12-31,10293.0,Potenciar Trabajo,5,Prestación
+2021-01-31,10293.0,Potenciar Trabajo,5,Prestación
+2021-02-28,10293.0,Potenciar Trabajo,5,Prestación
+2021-03-31,10293.0,Potenciar Trabajo,5,Prestación
+2021-04-30,11772.0,Potenciar Trabajo,5,Prestación
+2021-05-31,12204.0,Potenciar Trabajo,5,Prestación
+2021-06-30,12636.0,Potenciar Trabajo,5,Prestación
+2021-07-01,13608.0,Potenciar Trabajo,5,Prestación
+2021-08-01,14040.0,Potenciar Trabajo,5,Prestación
+2021-09-01,15552.0,Potenciar Trabajo,5,Prestación
+2021-10-01,16000.0,Potenciar Trabajo,5,Prestación
+2021-11-01,16000.0,Potenciar Trabajo,5,Prestación
+2021-12-01,16000.0,Potenciar Trabajo,5,Prestación
+2022-01-01,16000.0,Potenciar Trabajo,5,Prestación
+2022-02-01,16500.0,Potenciar Trabajo,5,Prestación
+2022-03-01,16500.0,Potenciar Trabajo,5,Prestación
+2022-04-01,19470.0,Potenciar Trabajo,5,Prestación
+2022-05-01,19470.0,Potenciar Trabajo,5,Prestación
+2022-06-01,22770.0,Potenciar Trabajo,5,Prestación
+2022-07-01,22770.0,Potenciar Trabajo,5,Prestación
+2022-08-01,23925.0,Potenciar Trabajo,5,Prestación
+2022-09-01,25600.0,Potenciar Trabajo,5,Prestación
+2022-10-01,27275.0,Potenciar Trabajo,5,Prestación
+2022-11-01,28950.0,Potenciar Trabajo,5,Prestación
+2022-12-01,30977.0,Potenciar Trabajo,5,Prestación
+2023-01-01,32714.0,Potenciar Trabajo,5,Prestación
